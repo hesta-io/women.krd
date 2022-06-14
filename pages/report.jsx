@@ -1,13 +1,18 @@
 import Head from 'next/head';
-import { Button, Input } from 'antd';
+import { Button } from 'antd';
+import sheets from '../services/sheets';
 
 export async function getStaticProps() {
+  const [response] = await sheets.loadRecords();
   return {
-    props: {},
+    props: {
+      data: response.body,
+    },
   };
 }
 
-export default function Home() {
+export default function Home(props) {
+  const { data } = props;
   return (
     <div>
       <Head>
@@ -16,8 +21,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Button type="primary" size="large">This is a button</Button>
-      <br />
-      <Input style={{ width: '30%' }} />
+      <pre>{JSON.stringify(data)}</pre>
     </div>
   );
 }
