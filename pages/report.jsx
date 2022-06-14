@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { Button } from 'antd';
 import sheets from '../services/sheets';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const [response] = await sheets.loadRecords();
   return {
     props: {

@@ -3,6 +3,9 @@
 const withLess = require('next-with-less');
 
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   reactStrictMode: false,
   lessLoaderOptions: {},
 };
