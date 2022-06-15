@@ -9,17 +9,22 @@
     background-color: transparent !important;
     border-bottom: 0;
 }
-
+.header, .main-container,.footer{
+    background-color: white !important;
+}
 .header .main-menu .main-menu-item {
     text-align: center;
 }
 
-.main-container,
-.layout,
-.footer {
-    background-color: #DCC9B6 !important;
-}
-
 .main-container {
     padding: 5%;
+}
+
+.loader-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
 }
