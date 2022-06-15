@@ -1,0 +1,25 @@
+.header {
+    background-color: transparent !important;
+}
+
+.header .main-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: transparent !important;
+    border-bottom: 0;
+}
+
+.header .main-menu .main-menu-item {
+    text-align: center;
+}
+
+.main-container,
+.layout,
+.footer {
+    background-color: #DCC9B6 !important;
+}
+
+.main-container {
+    padding: 5%;
+}

@@ -1,11 +1,68 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/react-in-jsx-scope */
 import '../styles/globals.css';
 import '../styles/antd.less';
+import { Layout, Menu } from 'antd';
+import { HomeOutlined, AreaChartOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
-function MyApp({ Component, pageProps }) {
+const { Header, Content, Footer } = Layout;
+
+function WomenApp({ Component, pageProps }) {
   return (
-    <Component {...pageProps} />
+    <Layout color="red" style={{ height: '100vh' }} className="layout">
+      <Header className="header">
+        <div className="logo" />
+        <Menu
+          className="main-menu"
+          theme="light"
+          mode="horizontal"
+
+        >
+          <Menu.Item className="main-menu-item" key="home">
+            <Link href="/">
+              <a>
+                <HomeOutlined />
+                &nbsp;
+                Home
+              </a>
+            </Link>
+
+          </Menu.Item>
+          <Menu.Item className="main-menu-item" key="reports">
+
+            <Link href="/report">
+              <a>
+                <AreaChartOutlined />
+                &nbsp;
+                Reports
+              </a>
+            </Link>
+          </Menu.Item>
+          <Menu.Item className="main-menu-item" key="about">
+            <Link href="/about">
+              <a>
+                <QuestionCircleOutlined />
+                &nbsp;
+                About
+              </a>
+            </Link>
+          </Menu.Item>
+        </Menu>
+      </Header>
+      <Content className="main-container">
+        <Component {...pageProps} />
+      </Content>
+      <Footer className="footer" style={{ textAlign: 'center' }}>
+        Women.krd ©
+        {new Date().getFullYear()}
+        {' '}
+        Created by
+        {' '}
+        <a href="https://hesta.io"><b>Hesta LTD</b></a>
+      </Footer>
+    </Layout>
   );
 }
 
-export default MyApp;
+export default WomenApp;

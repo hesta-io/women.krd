@@ -1,18 +1,21 @@
 import Head from 'next/head';
 import { Button } from 'antd';
-import sheets from '../services/sheets';
+import sheet from '../services/sheet';
 
 export async function getServerSideProps() {
-  const [response] = await sheets.loadRecords();
+  const records = await sheet.loadRecords();
+  const types = await sheet.loadTypes();
   return {
     props: {
-      data: response.body,
+      data: records,
+      types,
+      avilableTypeKeys: sheet.avilableTypeKeys,
     },
   };
 }
 
 export default function Home(props) {
-  const { data } = props;
+  const { types, data } = props;
   return (
     <div>
       <Head>
@@ -21,7 +24,9 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Button type="primary" size="large">This is a button</Button>
-      <pre>{JSON.stringify(data)}</pre>
+      <p>{JSON.stringify(data)}</p>
+      <hr />
+      <p>{JSON.stringify(types)}</p>
     </div>
   );
 }
