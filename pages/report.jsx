@@ -1,21 +1,15 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { Button } from 'antd';
 import sheet from '../services/sheet';
 
-export async function getServerSideProps() {
-  const records = await sheet.loadRecords();
-  const types = await sheet.loadTypes();
-  return {
-    props: {
-      data: records,
-      types,
-      avilableTypeKeys: sheet.avilableTypeKeys,
-    },
-  };
-}
-
-export default function Home(props) {
+function Home(props) {
   const { types, data } = props;
+  useEffect(async () => {
+    const records = await sheet.loadRecords();
+    const types = await sheet.loadTypes();
+    console.log(records, types);
+  }, []);
   return (
     <div>
       <Head>
@@ -30,3 +24,5 @@ export default function Home(props) {
     </div>
   );
 }
+
+export default Home;

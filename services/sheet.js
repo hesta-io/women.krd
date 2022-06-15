@@ -14,9 +14,9 @@ const avilableTypeKeys = {
 
 async function loadRecords() {
   const [recordsRes] = await promiseHandler(superagent
-    .get(`${process.env.GOOGLE_SHEET_API_URL}/${process.env.GOOGLE_SHEET_KEY}/values/data!A2:M`)
+    .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values/data!A2:M`)
     .query({
-      key: process.env.GOOGLE_API_KEY,
+      key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
     }));
   if (recordsRes) {
     return Promise.resolve(recordTransformer(recordsRes.body.values));
@@ -35,9 +35,9 @@ async function loadTypes() {
   }
 
   const [typesRes] = await promiseHandler(superagent
-    .get(`${process.env.GOOGLE_SHEET_API_URL}/${process.env.GOOGLE_SHEET_KEY}/values/${sheetName}!${range}`)
+    .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values/${sheetName}!${range}`)
     .query({
-      key: process.env.GOOGLE_API_KEY,
+      key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
     }));
   if (typesRes) {
     const { body } = typesRes;
