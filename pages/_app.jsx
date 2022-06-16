@@ -1,17 +1,34 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/react-in-jsx-scope */
-import '../styles/globals.css';
-import '../styles/antd.less';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Layout, Menu } from 'antd';
 import { HomeOutlined, AreaChartOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import 'animate.css';
+
+import '../styles/globals.css';
+import '../styles/antd.less';
+import sheet from '../services/sheet';
+import DataContext from '../helpers/DataContext';
 
 const { Header, Content, Footer } = Layout;
 
 function WomenApp({ Component, pageProps }) {
   const router = useRouter();
   const pathName = router.pathname;
+  const [allData, setAllData] = useState({
+    records: [],
+    types: {},
+  });
+  const loadData = async () => {
+    const fetchedData = await sheet.loadAllData();
+    setAllData(fetchedData);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
   return (
     <Layout color="red" style={{ height: '100vh' }} className="layout">
       <Header className="header">
@@ -54,7 +71,9 @@ function WomenApp({ Component, pageProps }) {
         </Menu>
       </Header>
       <Content className="main-container">
-        <Component {...pageProps} />
+        <DataContext.Provider value={allData}>
+          <Component {...pageProps} />
+        </DataContext.Provider>
       </Content>
       <Footer className="footer" style={{ textAlign: 'center' }}>
         Women.krd ©

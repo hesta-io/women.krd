@@ -1,16 +1,7 @@
 import superagent from 'superagent';
-import _ from 'lodash';
 import promiseHandler from '../helpers/promiseHandler';
 import recordTransformer from '../helpers/recordTransformer';
-
-const avilableTypeKeys = {
-  relationships: 'relationships',
-  ageGroups: 'ageGroups',
-  occupations: 'occupations',
-  methodsOfKilling: 'methodsOfKilling',
-  provinces: 'provinces',
-  apparentCircumstances: 'apparentCircumstances',
-};
+import typeTransformer from '../helpers/typeTransformer';
 
 async function loadRecords() {
   const [recordsRes] = await promiseHandler(superagent
@@ -25,37 +16,51 @@ async function loadRecords() {
 }
 
 async function loadTypes() {
-  const sheetName = 'types';
-  const range = 'A2:F';
-  const keys = _.keys(avilableTypeKeys);
-  const response = {};
-  // eslint-disable-next-line no-restricted-syntax
-  for (const k of keys) {
-    response[k] = [];
-  }
-
   const [typesRes] = await promiseHandler(superagent
-    .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values/${sheetName}!${range}`)
+    .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values/types!A2:F`)
     .query({
       key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
     }));
   if (typesRes) {
     const { body } = typesRes;
     const { values } = body;
-    for (let i = 0; i < values.length; i += 1) {
-      const row = values[i];
-      for (let j = 0; j < row.length; j += 1) {
-        response[keys[j]].push(row[j]);
-      }
-    }
-
-    return Promise.resolve(response);
+    return Promise.resolve(typeTransformer(values));
   }
-  return Promise.resolve(response);
+  return Promise.resolve({});
+}
+
+async function loadAllData() {
+  const dataSheetName = 'data!A2:M';
+  const typesSheetName = 'types!A2:F';
+  const [dataRes] = await promiseHandler(superagent
+    .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values:batchGet`)
+    .query({
+      key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+      ranges: [
+        dataSheetName,
+        typesSheetName,
+      ],
+      valueRenderOption: 'FORMATTED_VALUE',
+    }));
+  if (dataRes) {
+    const { valueRanges } = dataRes.body;
+    const [records, types] = valueRanges;
+    const resultedRecords = recordTransformer(records.values);
+    const resultedTypes = typeTransformer(types.values);
+
+    return Promise.resolve({
+      records: resultedRecords,
+      types: resultedTypes,
+    });
+  }
+  return Promise.resolve({
+    records: [],
+    types: {},
+  });
 }
 
 export default {
   loadRecords,
   loadTypes,
-  avilableTypeKeys,
+  loadAllData,
 };
