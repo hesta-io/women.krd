@@ -10,16 +10,15 @@ export default function Filters(props) {
   const [mainForm] = Form.useForm();
   const { types } = useContext(DataContext);
   const [isEmpty, setIsEmpty] = useState(true);
-  const sendValuesChangeEvent = (formData = {}) => {
+  const sendValuesChangeEvent = (formData = null, empty = true) => {
     try {
       // eslint-disable-next-line react/destructuring-assignment
-      props.onValuesChange(formData);
+      props.onValuesChange(formData, empty);
     } catch (e) {
       // useless comment
     }
   };
   const onValuesChange = (changedValue, allValues) => {
-    sendValuesChangeEvent(allValues);
     if (
       allValues.date || allValues.province
       || allValues.age || allValues.occupation
@@ -27,13 +26,15 @@ export default function Filters(props) {
       || allValues.method
     ) {
       setIsEmpty(false);
+      sendValuesChangeEvent(allValues, false);
     } else {
+      sendValuesChangeEvent(allValues, true);
       setIsEmpty(true);
     }
   };
   const resetForm = () => {
     mainForm.resetFields();
-    sendValuesChangeEvent();
+    sendValuesChangeEvent(null, true);
     setIsEmpty(true);
   };
   return (

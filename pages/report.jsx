@@ -1,13 +1,181 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Head from 'next/head';
-import { Row, Col } from 'antd';
-
+import {
+  Row, Col, Table, Typography,
+} from 'antd';
+import moment from 'moment';
 import Filters from '../components/Filters';
 import DataContext from '../helpers/DataContext';
 
 function Report() {
+  const columns = [
+    {
+      title: 'Date',
+      dataIndex: 'incident_date',
+      key: 'incident_date',
+      width: 120,
+      render: (v) => (
+        <span>
+          {v}
+        </span>
+      ),
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (v) => (
+        <span>
+          {v}
+        </span>
+      ),
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age_range',
+      key: 'age_range',
+      width: 100,
+      render: (v) => (
+        <span>
+          {v}
+        </span>
+      ),
+    },
+    {
+      title: 'Province',
+      dataIndex: 'incident_province',
+      key: 'incident_province',
+      width: 100,
+      render: (v) => (
+        <span>
+          {v}
+        </span>
+      ),
+    },
+    {
+      title: 'Occupation',
+      dataIndex: 'occupation',
+      key: 'occupation',
+      width: 150,
+      render: (v) => (
+        <span>
+          {v}
+        </span>
+      ),
+    },
+    {
+      title: 'Suspect',
+      dataIndex: 'relationship_to_principal_suspect',
+      key: 'relationship_to_principal_suspect',
+      width: 150,
+      render: (v) => (
+        <span>
+          {v}
+        </span>
+      ),
+    },
+    {
+      title: 'Method',
+      dataIndex: 'apparent_method_of_killing',
+      key: 'apparent_method_of_killing',
+      width: 150,
+      render: (v) => (
+        <span>
+          {v}
+        </span>
+      ),
+    },
+    // {
+    //   title: 'Description',
+    //   dataIndex: 'incident_description',
+    //   key: 'incident_description',
+    //   width: 150,
+    //   render: (v) => (
+    //     <Typography.Paragraph ellipsis>{v}</Typography.Paragraph>
+    //   ),
+    // },
+  ];
+  const pageSize = 10;
+
+  const initialPagination = {
+    pageSize,
+    current: 1,
+    hideOnSinglePage: true,
+  };
   const data = useContext(DataContext);
-  console.log(data);
+  const [pagination, setPagination] = useState(initialPagination);
+  const [filteredRecords, setFilteredRecords] = useState([]);
+  const filterValuesChange = (filters, emptyFilter) => {
+    if (emptyFilter) {
+      setFilteredRecords(data.records);
+      setPagination(() => ({
+        ...initialPagination,
+        total: data.records.length,
+      }));
+    } else {
+      let filteredRecordsResult = data.records;
+      if (filters.date && filters.date.length > 0) {
+        const [startDate, endDate] = filters.date;
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => {
+            const caseDate = moment(v.incident_date);
+            return caseDate.isBetween(startDate, endDate);
+          },
+        );
+      }
+      if (filters.province) {
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => v.incident_province === filters.province,
+        );
+      }
+      if (filters.age) {
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => v.age_range === filters.age,
+        );
+      }
+      if (filters.occupation) {
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => v.occupation === filters.occupation,
+        );
+      }
+      if (filters.suspect_relationship) {
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => v.relationship_to_principal_suspect === filters.suspect_relationship,
+        );
+      }
+      if (filters.method) {
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => v.apparent_method_of_killing === filters.method,
+        );
+      }
+      if (filters.circumstance) {
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => v.apparent_circumstances === filters.circumstance,
+        );
+      }
+      setFilteredRecords(filteredRecordsResult);
+      setPagination(() => ({
+        ...initialPagination,
+        current: 1,
+        total: filteredRecordsResult.length,
+      }));
+    }
+  };
+  useEffect(() => {
+    setFilteredRecords(data.records);
+    setPagination(() => ({
+      ...initialPagination,
+      total: data.records.length,
+    }));
+  }, [data]);
+
+  const tableChanged = (paginationState) => {
+    setPagination((oldValue) => ({
+      ...oldValue,
+      ...paginationState,
+    }));
+  };
+
   return (
     <div>
       <Head>
@@ -17,14 +185,17 @@ function Report() {
       </Head>
       <Row>
         <Col span={24}>
-          <Filters />
-
+          <Filters onValuesChange={filterValuesChange} />
         </Col>
         <Col span={24}>
-          <p>{JSON.stringify(data.records)}</p>
-          <hr />
-          <p>{JSON.stringify(data.types)}</p>
-
+          <Table
+            size="small"
+            bordered
+            columns={columns}
+            dataSource={filteredRecords}
+            onChange={tableChanged}
+            pagination={pagination}
+          />
         </Col>
       </Row>
 
