@@ -56,7 +56,7 @@ export default function ReportStatistics(props) {
   const currentPeriodRecord = getDataByRange(ranges[1], data.records, filters);
   //   https://www.skillsyouneed.com/num/percent-change.html
   let percentage = ((currentPeriodRecord.length - previosPeriodRecord.length)
-  / (previosPeriodRecord.length)) * 100;
+  / (previosPeriodRecord.length === 0 ? 1 : previosPeriodRecord.length)) * 100;
   if (Number.isNaN(percentage)) {
     percentage = 0;
   }
@@ -90,7 +90,7 @@ export default function ReportStatistics(props) {
           <Statistic
             title="Compared to last period"
             value={percentage}
-            precision={2}
+            precision={1}
             valueStyle={{
               color: percentage < 0 ? '#3f8600' : '#cf1322',
             }}

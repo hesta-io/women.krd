@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import Head from 'next/head';
 import {
-  Row, Col, Table, Typography,
+  Row, Col, Table, Typography, Button,
 } from 'antd';
 import moment from 'moment';
 import Filters from '../components/Filters';
@@ -181,16 +181,23 @@ function Report() {
     }));
   };
   const rowExpanRendrer = (record) => (
-    <Typography.Paragraph
-      style={{
-        margin: 0,
-        padding: 10,
-        borderRadius: 5,
-      }}
-      copyable
-    >
-      {record.incident_description}
-    </Typography.Paragraph>
+    <>
+      <Typography.Paragraph
+        style={{
+          margin: 0,
+          padding: 10,
+          borderRadius: 5,
+        }}
+        copyable
+      >
+        {record.incident_description}
+      </Typography.Paragraph>
+      {record.link1 !== '' ? <Button size="small" href={record.link1} target="_blank" type="primary">Source 1</Button> : null}
+      &nbsp;
+      {record.link2 !== '' ? <Button size="small" href={record.link2} target="_blank" type="primary">Source 2</Button> : null}
+      &nbsp;
+      {record.link3 !== '' ? <Button size="small" href={record.link3} target="_blank" type="primary">Source 3</Button> : null}
+    </>
   );
   return (
     <div>

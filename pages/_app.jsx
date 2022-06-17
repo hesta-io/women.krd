@@ -30,7 +30,7 @@ function WomenApp({ Component, pageProps }) {
     loadData();
   }, []);
   return (
-    <Layout color="red" style={{ height: '100vh' }} className="layout">
+    <Layout color="red" style={{ minHeight: '100vh' }} className="layout">
       <Header className="header">
         <div className="logo" />
         <Menu

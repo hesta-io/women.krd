@@ -48,28 +48,35 @@ export default function Filters(props) {
         <Col span={3}>
           <Form.Item label="Provinces" name="province">
             <Select key="Provinces" allowClear style={{ width: '100%' }}>
-              {types?.provinces?.map((v) => <Select.Option value={v}>{v}</Select.Option>)}
+              {types?.provinces?.map((v) => <Select.Option key={v} value={v}>{v}</Select.Option>)}
             </Select>
           </Form.Item>
         </Col>
         <Col span={3}>
           <Form.Item label="Age" name="age">
             <Select key="Age" allowClear style={{ width: '100%' }}>
-              {types?.ageGroups?.map((v) => <Select.Option value={v}>{v}</Select.Option>)}
+              {types?.ageGroups?.map((v) => <Select.Option key={v} value={v}>{v}</Select.Option>)}
             </Select>
           </Form.Item>
         </Col>
         <Col span={3}>
           <Form.Item label="Occupation" name="occupation">
             <Select key="Occupation" allowClear style={{ width: '100%' }}>
-              {types?.occupations?.map((v) => <Select.Option value={v}>{v}</Select.Option>)}
+              {types?.occupations?.map((v) => <Select.Option key={v} value={v}>{v}</Select.Option>)}
             </Select>
           </Form.Item>
         </Col>
         <Col span={3}>
           <Form.Item label="Suspect Relationship" name="suspect_relationship">
             <Select label="key" allowClear style={{ width: '100%' }}>
-              {types?.relationships?.map((v) => <Select.Option value={v}>{v}</Select.Option>)}
+              {types?.relationships?.map((v) => (
+                <Select.Option
+                  key={v}
+                  value={v}
+                >
+                  {v}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -77,7 +84,14 @@ export default function Filters(props) {
         <Col span={3}>
           <Form.Item label="Method" name="method">
             <Select key="Method" allowClear style={{ width: '100%' }}>
-              {types?.methodsOfKilling?.map((v) => <Select.Option value={v}>{v}</Select.Option>)}
+              {types?.methodsOfKilling?.map((v) => (
+                <Select.Option
+                  key={v}
+                  value={v}
+                >
+                  {v}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -85,7 +99,7 @@ export default function Filters(props) {
           <Form.Item label="Circumstance" name="circumstance">
             <Select key="Circumstance" allowClear style={{ width: '100%' }}>
               {types?.apparentCircumstances?.map(
-                (v) => <Select.Option value={v}>{v}</Select.Option>,
+                (v) => <Select.Option key={v} value={v}>{v}</Select.Option>,
               )}
             </Select>
           </Form.Item>

@@ -14,6 +14,7 @@
 }
 .header .main-menu .main-menu-item {
     text-align: center;
+    width: 300px;
 }
 
 .main-container {
@@ -26,5 +27,12 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-
+}
+.brand-image{
+    padding: 10px;
+    filter: grayscale();
+    transition: all 0.2s;
+}
+.brand-image:hover{
+    filter: none;
 }
