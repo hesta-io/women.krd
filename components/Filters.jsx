@@ -38,8 +38,8 @@ export default function Filters(props) {
     setIsEmpty(true);
   };
   return (
-    <Form form={mainForm} onValuesChange={onValuesChange} layout="vertical">
-      <Row gutter={([10, 10])}>
+    <Form style={{ marginBottom: -20 }} form={mainForm} onValuesChange={onValuesChange} layout="vertical">
+      <Row gutter={[10, 0]}>
         <Col span={4}>
           <Form.Item label="Date" name="date">
             <DatePicker.RangePicker />
