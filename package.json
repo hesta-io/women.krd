@@ -6,9 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
-    "lint": "next lint",
-    "publish:gp": "node ./ghpages.js"
+    "export": "next export  -o dist",
+    "lint": "next lint"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -34,7 +33,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.30.0",
-    "eslint-plugin-react-hooks": "^4.5.0",
-    "gh-pages": "^4.0.0"
+    "eslint-plugin-react-hooks": "^4.5.0"
   }
 }
