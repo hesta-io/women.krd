@@ -60,8 +60,6 @@ export default function ReportStatistics(props) {
   if (Number.isNaN(percentage)) {
     percentage = 0;
   }
-  console.log(previosPeriodRecord);
-  console.log(currentPeriodRecord);
   return (
     <Row gutter={[20, 20]} justify="center">
 

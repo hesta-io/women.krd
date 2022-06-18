@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import _ from 'lodash';
 import { useContext } from 'react';
+import moment from 'moment';
 import {
-  Row, Col, Card, Typography, Image,
+  Row, Col, Card, Typography, Image, Statistic,
 } from 'antd';
 import {
   Chart as ChartJS,
@@ -43,11 +44,15 @@ export default function Home() {
   const groupedRecords = _.groupBy(records, 'incident_province');
   const labels = _.keys(groupedRecords).reverse();
   const chartValues = labels.map((l) => groupedRecords[l]?.length);
+  const thisYearCases = records.filter((v) => {
+    const incidentDate = moment(v.incident_date);
+    return incidentDate.isSame(new Date(), 'year');
+  });
   const chartData = {
     labels,
     datasets: [
       {
-        label: 'Cities',
+        label: 'Victims',
         data: chartValues.reverse(),
         // backgroundColor: 'rgba(20, 20, 20, 0.7)',
         backgroundColor: 'rgba(53, 162, 235, 0.6)',
@@ -74,13 +79,38 @@ export default function Home() {
           </Card>
         </Col>
         <Col span={8}>
-          <Card title="Supported By" style={{ width: '100%', textAlign: 'center', height: '100%' }}>
-            <Image.PreviewGroup>
-              <Image className="brand-image" preview={false} width={150} src="/images/seed.png" />
-              <Image className="brand-image" preview={false} width={150} src="/images/asuda.png" />
-              <Image className="brand-image" preview={false} width={150} src="/images/hesta.png" />
-            </Image.PreviewGroup>
-          </Card>
+          <Row gutter={[10, 10]}>
+            <Col span={12}>
+              <Card style={{ width: '100%', textAlign: 'center' }}>
+                <Statistic
+                  title="Total Cases"
+                  value={records.length}
+                />
+              </Card>
+            </Col>
+            <Col span={12}>
+              <Card style={{ width: '100%', textAlign: 'center' }}>
+                <Statistic
+                  title={`This Year (${new Date().getFullYear()})`}
+                  value={thisYearCases.length}
+                  valueStyle={{
+                    color: '#cf1322',
+                  }}
+                />
+              </Card>
+            </Col>
+            <Col span={24}>
+              <Card title="Supported By" style={{ width: '100%', textAlign: 'center' }}>
+                <Image.PreviewGroup>
+                  <Image className="brand-image" preview={false} width={150} src="/images/seed.png" />
+                  <Image className="brand-image" preview={false} width={150} src="/images/asuda.png" />
+                  <Image className="brand-image" preview={false} width={150} src="/images/hesta.png" />
+                </Image.PreviewGroup>
+              </Card>
+            </Col>
+
+          </Row>
+
         </Col>
         <Col span={24}>
           <Typography.Paragraph>
