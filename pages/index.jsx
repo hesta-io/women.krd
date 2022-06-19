@@ -1,9 +1,11 @@
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import _ from 'lodash';
 import { useContext } from 'react';
 import moment from 'moment';
 import {
   Row, Col, Card, Typography, Image, Statistic,
+  Collapse,
 } from 'antd';
 import {
   Chart as ChartJS,
@@ -16,6 +18,13 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import DataContext from '../helpers/DataContext';
+
+const OnDesktop = dynamic(() => import('../helpers/MediaQuery').then((Comp) => Comp.OnDesktop), {
+  ssr: false,
+});
+const OnMobile = dynamic(() => import('../helpers/MediaQuery').then((Comp) => Comp.OnMobile), {
+  ssr: false,
+});
 
 ChartJS.register(
   CategoryScale,
@@ -54,17 +63,26 @@ export default function Home() {
       {
         label: 'Victims',
         data: chartValues.reverse(),
-        // backgroundColor: 'rgba(20, 20, 20, 0.7)',
-        backgroundColor: 'rgba(53, 162, 235, 0.6)',
+        backgroundColor: 'rgba(20, 20, 20, 0.7)',
+        // backgroundColor: 'rgba(53, 162, 235, 0.6)',
       },
 
     ],
   };
-
+  const PartnersGallery = (
+    <Image.PreviewGroup>
+      <Image className="brand-image" preview={false} width={150} src="/images/seed.png" />
+      <Image className="brand-image" preview={false} width={150} src="/images/asuda.png" />
+      <Image className="brand-image" preview={false} width={150} src="/images/wola.png" />
+      <a href="https://hesta.io" target="_blank" rel="noreferrer">
+        <Image className="brand-image" preview={false} width={150} src="/images/hesta.png" />
+      </a>
+    </Image.PreviewGroup>
+  );
   return (
     <div>
       <Head>
-        <title>Women.krd</title>
+        <title>Women&apos;s rights reserved</title>
         <meta
           name="description"
           content="is a virtual platform that documents women and
@@ -72,15 +90,19 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Row gutter={[20, 20]}>
-        <Col span={16}>
-          <Card style={{ width: '100%' }}>
-            <Bar options={chartOptions} data={chartData} />
-          </Card>
-        </Col>
-        <Col span={8}>
+        <OnDesktop>
+          <Col xs={24} sm={24} md={16} lg={16}>
+            <Card style={{ width: '100%' }}>
+              <Bar options={chartOptions} data={chartData} />
+            </Card>
+          </Col>
+        </OnDesktop>
+
+        <Col xs={24} sm={24} md={8} lg={8}>
           <Row gutter={[10, 10]}>
-            <Col span={12}>
+            <Col xs={24} sm={24} md={12} lg={12}>
               <Card style={{ width: '100%', textAlign: 'center' }}>
                 <Statistic
                   title="Total Cases"
@@ -88,7 +110,7 @@ export default function Home() {
                 />
               </Card>
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={24} md={12} lg={12}>
               <Card style={{ width: '100%', textAlign: 'center' }}>
                 <Statistic
                   title={`This Year (${new Date().getFullYear()})`}
@@ -100,20 +122,34 @@ export default function Home() {
               </Card>
             </Col>
             <Col span={24}>
-              <Card title="Supported By" style={{ width: '100%', textAlign: 'center' }}>
-                <Image.PreviewGroup>
-                  <Image className="brand-image" preview={false} width={150} src="/images/seed.png" />
-                  <Image className="brand-image" preview={false} width={150} src="/images/asuda.png" />
-                  <Image className="brand-image" preview={false} width={150} src="/images/hesta.png" />
-                </Image.PreviewGroup>
-              </Card>
+              <OnDesktop>
+                <Card title="Supported By" style={{ width: '100%', textAlign: 'center' }}>
+                  {PartnersGallery}
+                </Card>
+              </OnDesktop>
+              <OnMobile>
+                <Collapse style={{ width: '100%', textAlign: 'center' }}>
+                  <Collapse.Panel header="Supported By">
+                    {PartnersGallery}
+                  </Collapse.Panel>
+                </Collapse>
+              </OnMobile>
             </Col>
-
           </Row>
-
         </Col>
-        <Col span={24}>
-          <Typography.Paragraph>
+        <OnMobile>
+          <Col xs={24} sm={24} md={16} lg={16}>
+            <Collapse style={{ width: '100%', textAlign: 'center' }}>
+              <Collapse.Panel header="Data">
+                <Card style={{ width: '100%' }}>
+                  <Bar options={chartOptions} data={chartData} />
+                </Card>
+              </Collapse.Panel>
+            </Collapse>
+          </Col>
+        </OnMobile>
+        <Col xs={24} sm={24} md={24} lg={24}>
+          <Typography.Paragraph className="about-text">
             <b>Women.Krd</b>
             {' '}
             is a virtual platform that documents women and

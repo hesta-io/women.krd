@@ -2,9 +2,9 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Layout, Menu } from 'antd';
+import Script from 'next/script';
+import { Button, Layout } from 'antd';
 import { HomeOutlined, AreaChartOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import Link from 'next/link';
 import 'animate.css';
 
 import '../styles/globals.css';
@@ -17,6 +17,9 @@ const { Header, Content, Footer } = Layout;
 function WomenApp({ Component, pageProps }) {
   const router = useRouter();
   const pathName = router.pathname;
+  const goToRoute = (route) => {
+    router.push(route);
+  };
   const [allData, setAllData] = useState({
     records: [],
     types: {},
@@ -30,61 +33,44 @@ function WomenApp({ Component, pageProps }) {
     loadData();
   }, []);
   return (
-    <Layout color="red" style={{ minHeight: '100vh' }} className="layout">
-      <Header className="header">
-        <div className="logo" />
-        <Menu
-          className="main-menu"
-          theme="light"
-          mode="horizontal"
-          selectedKeys={[pathName]}
-        >
-          <Menu.Item className="main-menu-item" key="/">
-            <Link href="/">
-              <a>
-                <HomeOutlined />
-                &nbsp;
-                Home
-              </a>
-            </Link>
+    <>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-RG467SZ5WC"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-RG467SZ5WC');
+        `}
+      </Script>
+      <Layout color="red" style={{ minHeight: '100vh' }} className="layout">
+        <Header className="header">
+          <div className="logo" />
+          <Button.Group size="large" style={{ width: '100%' }}>
+            <Button onClick={() => goToRoute('/')} icon={<HomeOutlined />} type={pathName === '/' ? 'primary' : 'dashed'} block>Home</Button>
+            <Button onClick={() => goToRoute('/report')} icon={<AreaChartOutlined />} type={pathName === '/report' ? 'primary' : 'dashed'} block>Reports</Button>
+            <Button onClick={() => goToRoute('/about')} icon={<QuestionCircleOutlined />} type={pathName === '/about' ? 'primary' : 'dashed'} block>About</Button>
+          </Button.Group>
+        </Header>
+        <Content className="main-container">
+          <DataContext.Provider value={allData}>
+            <Component {...pageProps} />
+          </DataContext.Provider>
+        </Content>
+        <Footer className="footer" style={{ textAlign: 'center' }}>
+          Women.krd ©
+          {new Date().getFullYear()}
+          {' '}
+          Created by
+          {' '}
+          <a href="https://hesta.io"><b>Hesta LTD</b></a>
 
-          </Menu.Item>
-          <Menu.Item className="main-menu-item" key="/report">
-
-            <Link href="/report">
-              <a>
-                <AreaChartOutlined />
-                &nbsp;
-                Reports
-              </a>
-            </Link>
-          </Menu.Item>
-          <Menu.Item className="main-menu-item" key="/about">
-            <Link href="/about">
-              <a>
-                <QuestionCircleOutlined />
-                &nbsp;
-                About
-              </a>
-            </Link>
-          </Menu.Item>
-        </Menu>
-      </Header>
-      <Content className="main-container">
-        <DataContext.Provider value={allData}>
-          <Component {...pageProps} />
-        </DataContext.Provider>
-      </Content>
-      <Footer className="footer" style={{ textAlign: 'center' }}>
-        Women.krd ©
-        {new Date().getFullYear()}
-        {' '}
-        Created by
-        {' '}
-        <a href="https://hesta.io"><b>Hesta LTD</b></a>
-
-      </Footer>
-    </Layout>
+        </Footer>
+      </Layout>
+    </>
   );
 }
 

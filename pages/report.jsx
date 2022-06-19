@@ -1,12 +1,13 @@
 import { useContext, useState, useEffect } from 'react';
 import Head from 'next/head';
 import {
-  Row, Col, Table, Typography, Button,
+  Row, Col, Table, Typography, Button, Descriptions,
 } from 'antd';
 import moment from 'moment';
 import Filters from '../components/Filters';
 import DataContext from '../helpers/DataContext';
 import ReportStatistics from '../components/ReportStatistics';
+import { OnDesktop, OnMobile } from '../helpers/MediaQuery';
 
 function Report() {
   const columns = [
@@ -41,6 +42,7 @@ function Report() {
           {v}
         </span>
       ),
+      responsive: ['sm'],
     },
     {
       title: 'Province',
@@ -52,6 +54,7 @@ function Report() {
           {v}
         </span>
       ),
+      responsive: ['lg'],
     },
     {
       title: 'Occupation',
@@ -63,6 +66,7 @@ function Report() {
           {v}
         </span>
       ),
+      responsive: ['lg'],
     },
     {
       title: 'Suspect',
@@ -74,6 +78,7 @@ function Report() {
           {v}
         </span>
       ),
+      responsive: ['lg'],
     },
     {
       title: 'Method',
@@ -85,6 +90,7 @@ function Report() {
           {v}
         </span>
       ),
+      responsive: ['lg'],
     },
   ];
   const pageSize = 10;
@@ -148,16 +154,17 @@ function Report() {
           (v) => v.relationship_to_principal_suspect === _filters.suspect_relationship,
         );
       }
-      if (filters.method) {
+      if (_filters.method) {
         filteredRecordsResult = filteredRecordsResult.filter(
-          (v) => v.apparent_method_of_killing === filters.method,
+          (v) => v.apparent_method_of_killing === _filters.method,
         );
       }
-      if (filters.circumstance) {
+      if (_filters.circumstance) {
         filteredRecordsResult = filteredRecordsResult.filter(
-          (v) => v.apparent_circumstances === filters.circumstance,
+          (v) => v.apparent_circumstances === _filters.circumstance,
         );
       }
+
       setFilteredRecords(filteredRecordsResult);
       setPagination(() => ({
         ...initialPagination,
@@ -182,28 +189,73 @@ function Report() {
   };
   const rowExpanRendrer = (record) => (
     <>
-      <Typography.Paragraph
-        style={{
-          margin: 0,
-          padding: 10,
-          borderRadius: 5,
-        }}
-        copyable
-      >
-        {record.incident_description}
-      </Typography.Paragraph>
-      {record.link1 !== '' ? <Button size="small" href={record.link1} target="_blank" type="primary">Source 1</Button> : null}
-      &nbsp;
-      {record.link2 !== '' ? <Button size="small" href={record.link2} target="_blank" type="primary">Source 2</Button> : null}
-      &nbsp;
-      {record.link3 !== '' ? <Button size="small" href={record.link3} target="_blank" type="primary">Source 3</Button> : null}
+      <OnDesktop>
+        <Typography.Paragraph
+          style={{
+            margin: 0,
+            padding: 10,
+            borderRadius: 5,
+          }}
+          copyable
+        >
+          {record.incident_description}
+        </Typography.Paragraph>
+        {record.link1 !== '' ? <Button size="small" href={record.link1} target="_blank" type="primary">Source 1</Button> : null}
+        &nbsp;
+        {record.link2 !== '' ? <Button size="small" href={record.link2} target="_blank" type="primary">Source 2</Button> : null}
+        &nbsp;
+        {record.link3 !== '' ? <Button size="small" href={record.link3} target="_blank" type="primary">Source 3</Button> : null}
+      </OnDesktop>
+      <OnMobile>
+        <Descriptions column={24} layout="vertical" bordered size="small">
+          <Descriptions.Item span={12} label="Method of killing">
+            {record.apparent_method_of_killing}
+          </Descriptions.Item>
+          <Descriptions.Item span={12} label="Circumstances">
+            {record.apparent_circumstances}
+          </Descriptions.Item>
+          <Descriptions.Item span={12} label="Suspect">
+            {record.relationship_to_principal_suspect}
+          </Descriptions.Item>
+          <Descriptions.Item span={12} label="Occupation">
+            {record.occupation}
+          </Descriptions.Item>
+          <Descriptions.Item span={12} label="Province">
+            {record.incident_province}
+          </Descriptions.Item>
+          <Descriptions.Item span={12} label="Sources">
+            {record.link1 !== '' ? <Button size="small" href={record.link1} target="_blank" type="primary">Source 1</Button> : null}
+            &nbsp;
+            {record.link2 !== '' ? <Button size="small" href={record.link2} target="_blank" type="primary">Source 2</Button> : null}
+            &nbsp;
+            {record.link3 !== '' ? <Button size="small" href={record.link3} target="_blank" type="primary">Source 3</Button> : null}
+          </Descriptions.Item>
+
+          <Descriptions.Item span={24} label="Description">
+            <Typography.Paragraph
+              style={{
+                margin: 0,
+                padding: 10,
+                borderRadius: 5,
+              }}
+              copyable
+            >
+              {record.incident_description}
+            </Typography.Paragraph>
+          </Descriptions.Item>
+        </Descriptions>
+      </OnMobile>
     </>
   );
   return (
     <div>
       <Head>
-        <title>Women.krd</title>
-        <meta name="description" content="Generated by create next app" />
+        <title>Women&apos;s rights reserved</title>
+        <meta
+          name="description"
+          content="is a virtual platform that documents women and
+            girls killed in the name of honour within the Iraqi Kurdistan Region"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Row gutter={[10, 20]}>
