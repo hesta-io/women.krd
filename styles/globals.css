@@ -14,7 +14,6 @@
 }
 .header .main-menu .main-menu-item {
     text-align: center;
-    width: 300px;
 }
 
 .main-container {
@@ -31,8 +30,12 @@
 .brand-image{
     padding: 10px;
     filter: grayscale();
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 .brand-image:hover{
     filter: none;
+}
+
+.about-text{
+    font-size: 1.3em;
 }
