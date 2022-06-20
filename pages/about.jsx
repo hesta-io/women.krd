@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Women&apos;s rights reserved</title>
+        <title>Women.krd</title>
         <meta
           name="description"
           content="is a virtual platform that documents women and
