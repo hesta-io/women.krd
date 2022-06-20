@@ -51,7 +51,7 @@ const chartOptions = {
 export default function Home() {
   const { records } = useContext(DataContext);
   const groupedRecords = _.groupBy(records, 'incident_province');
-  const labels = _.keys(groupedRecords).reverse();
+  const labels = _.keys(groupedRecords);
   const chartValues = labels.map((l) => groupedRecords[l]?.length);
   const thisYearCases = records.filter((v) => {
     const incidentDate = moment(v.incident_date);
@@ -62,8 +62,9 @@ export default function Home() {
     datasets: [
       {
         label: 'Victims',
-        data: chartValues.reverse(),
-        backgroundColor: 'rgba(20, 20, 20, 0.7)',
+        data: chartValues,
+        // backgroundColor: 'rgba(20, 20, 20, 0.7)',
+        backgroundColor: '#e3e3e3',
         // backgroundColor: 'rgba(53, 162, 235, 0.6)',
       },
 
@@ -71,12 +72,12 @@ export default function Home() {
   };
   const PartnersGallery = (
     <Image.PreviewGroup>
-      <Image className="brand-image" preview={false} width={150} src="/images/seed.png" />
-      <Image className="brand-image" preview={false} width={150} src="/images/asuda.png" />
-      <Image className="brand-image" preview={false} width={150} src="/images/wola.png" />
       <a href="https://hesta.io" target="_blank" rel="noreferrer">
-        <Image className="brand-image" preview={false} width={150} src="/images/hesta.png" />
+        <Image className="brand-image" preview={false} width={130} src="/images/hesta.png" />
       </a>
+      <Image className="brand-image" preview={false} width={130} src="/images/seed.png" />
+      <Image className="brand-image" preview={false} width={130} src="/images/asuda.png" />
+      <Image className="brand-image" preview={false} width={130} src="/images/wola.png" />
     </Image.PreviewGroup>
   );
   return (
@@ -92,16 +93,23 @@ export default function Home() {
       </Head>
 
       <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <Typography.Title style={{ textAlign: 'center', marginBottom: 30 }} level={1}>
+            Documenting violence against
+            <br />
+            women in Kurdistan Region
+          </Typography.Title>
+        </Col>
         <OnDesktop>
           <Col xs={24} sm={24} md={16} lg={16}>
-            <Card style={{ width: '100%' }}>
+            <Card className="bar-chart-container">
               <Bar options={chartOptions} data={chartData} />
             </Card>
           </Col>
         </OnDesktop>
 
         <Col xs={24} sm={24} md={8} lg={8}>
-          <Row gutter={[10, 10]}>
+          <Row style={{ height: '100%' }} gutter={[10, 10]}>
             <Col xs={24} sm={24} md={12} lg={12}>
               <Card style={{ width: '100%', textAlign: 'center' }}>
                 <Statistic
@@ -162,6 +170,8 @@ export default function Home() {
             Government’s committee for combating violence against women. Our methodological
             approach is justified on the grounds that the region still lacks a transparent
             and robust data gathering system.
+          </Typography.Paragraph>
+          <Typography.Paragraph className="about-text">
             Our grassroots approach will enable us
             to understand underlying factors that may contribute
             towards the increased violence committed against women and girls.

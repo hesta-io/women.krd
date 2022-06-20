@@ -34,6 +34,9 @@ function WomenApp({ Component, pageProps }) {
   }, []);
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+      <link href="https://fonts.googleapis.com/css2?family=Anek+Latin&display=swap" rel="stylesheet" />
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-RG467SZ5WC"
         strategy="afterInteractive"

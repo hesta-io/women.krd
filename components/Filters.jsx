@@ -35,7 +35,7 @@ export default function Filters(props) {
       allValues.date || allValues.province
       || allValues.age || allValues.occupation
       || allValues.suspect_relationship || allValues.circumstance
-      || allValues.method
+      || allValues.method || allValues.suspect_status
     ) {
       setIsEmpty(false);
       sendValuesChangeEvent(allValues, false);
@@ -57,14 +57,14 @@ export default function Filters(props) {
             <DatePicker.RangePicker style={{ width: '100%' }} />
           </Form.Item>
         </Col>
-        <Col xs={24} sm={24} md={3} lg={3}>
+        <Col xs={24} sm={24} md={2} lg={2}>
           <Form.Item label="Provinces" name="province">
             <Select key="Provinces" allowClear style={{ width: '100%' }}>
               {types?.provinces?.map((v) => <Select.Option key={v} value={v}>{v}</Select.Option>)}
             </Select>
           </Form.Item>
         </Col>
-        <Col xs={24} sm={24} md={3} lg={3}>
+        <Col xs={24} sm={24} md={2} lg={2}>
           <Form.Item label="Age" name="age">
             <Select key="Age" allowClear style={{ width: '100%' }}>
               {types?.ageGroups?.map((v) => <Select.Option key={v} value={v}>{v}</Select.Option>)}
@@ -92,7 +92,20 @@ export default function Filters(props) {
             </Select>
           </Form.Item>
         </Col>
-
+        <Col xs={24} sm={24} md={3} lg={3}>
+          <Form.Item label="Suspect Status" name="suspect_status">
+            <Select key="suspect-status" allowClear style={{ width: '100%' }}>
+              {types?.suspectStatuses?.map((v) => (
+                <Select.Option
+                  key={v}
+                  value={v}
+                >
+                  {v}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Col>
         <Col xs={24} sm={24} md={3} lg={3}>
           <Form.Item label="Method" name="method">
             <Select key="Method" allowClear style={{ width: '100%' }}>
@@ -107,7 +120,8 @@ export default function Filters(props) {
             </Select>
           </Form.Item>
         </Col>
-        <Col xs={24} sm={24} md={4} lg={4}>
+
+        <Col xs={24} sm={24} md={3} lg={3}>
           <Form.Item label="Circumstance" name="circumstance">
             <Select key="Circumstance" allowClear style={{ width: '100%' }}>
               {types?.apparentCircumstances?.map(
@@ -117,7 +131,6 @@ export default function Filters(props) {
           </Form.Item>
         </Col>
         <OnDesktop>
-
           <Col xs={24} sm={24} md={1} lg={1}>
             <Form.Item label=" ">
               <Button disabled={isEmpty} onClick={resetForm} icon={<ClearOutlined />} block danger type="primary" />

@@ -33,6 +33,11 @@ function getDataByRange(range, records, filters) {
         (v) => v.relationship_to_principal_suspect === filters.suspect_relationship,
       );
     }
+    if (filters.suspect_status) {
+      filteredRecords = filteredRecords.filter(
+        (v) => v.primary_suspect_status === filters.suspect_status,
+      );
+    }
     if (filters.method) {
       filteredRecords = filteredRecords.filter(
         (v) => v.apparent_method_of_killing === filters.method,
@@ -63,7 +68,7 @@ export default function ReportStatistics(props) {
   return (
     <Row gutter={[20, 20]} justify="center">
 
-      <Col xs={8} sm={8} md={5} lg={5}>
+      <Col xs={24} sm={24} md={5} lg={5}>
         <Card style={{ width: '100%', textAlign: 'center' }}>
           <Statistic
             title={`${ranges[0][0].format(dateFormat)} → ${ranges[0][1].format(dateFormat)}`}
@@ -73,7 +78,7 @@ export default function ReportStatistics(props) {
           />
         </Card>
       </Col>
-      <Col xs={8} sm={8} md={5} lg={5}>
+      <Col xs={24} sm={24} md={5} lg={5}>
         <Card style={{ width: '100%', textAlign: 'center' }}>
           <Statistic
             title={`${ranges[1][0].format(dateFormat)} → ${ranges[1][1].format(dateFormat)}`}
@@ -83,7 +88,7 @@ export default function ReportStatistics(props) {
           />
         </Card>
       </Col>
-      <Col xs={8} sm={8} md={5} lg={5}>
+      <Col xs={24} sm={24} md={5} lg={5}>
         <Card style={{ width: '100%', textAlign: 'center' }}>
           <Statistic
             title="Compared to last period"

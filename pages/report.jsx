@@ -42,7 +42,7 @@ function Report() {
           {v}
         </span>
       ),
-      responsive: ['sm'],
+      responsive: ['md'],
     },
     {
       title: 'Province',
@@ -72,14 +72,19 @@ function Report() {
       title: 'Suspect',
       dataIndex: 'relationship_to_principal_suspect',
       key: 'relationship_to_principal_suspect',
-      width: 150,
-      render: (v) => (
+      width: 250,
+      render: (v, row) => (
         <span>
           {v}
+          {' '}
+          (
+          {row.primary_suspect_status}
+          )
         </span>
       ),
-      responsive: ['lg'],
+      responsive: ['sm'],
     },
+
     {
       title: 'Method',
       dataIndex: 'apparent_method_of_killing',
@@ -154,6 +159,11 @@ function Report() {
           (v) => v.relationship_to_principal_suspect === _filters.suspect_relationship,
         );
       }
+      if (_filters.suspect_status) {
+        filteredRecordsResult = filteredRecordsResult.filter(
+          (v) => v.primary_suspect_status === _filters.suspect_status,
+        );
+      }
       if (_filters.method) {
         filteredRecordsResult = filteredRecordsResult.filter(
           (v) => v.apparent_method_of_killing === _filters.method,
@@ -216,6 +226,9 @@ function Report() {
           </Descriptions.Item>
           <Descriptions.Item span={12} label="Suspect">
             {record.relationship_to_principal_suspect}
+            (
+            {record.primary_suspect_status}
+            )
           </Descriptions.Item>
           <Descriptions.Item span={12} label="Occupation">
             {record.occupation}
