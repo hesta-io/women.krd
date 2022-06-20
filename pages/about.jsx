@@ -58,12 +58,18 @@ export default function Home() {
       </Typography.Paragraph>
       <Typography.Paragraph italic className="about-text">
         This project was founded by
-
         &nbsp;
         <a href="https://twitter.com/RuwaydaMustafah" target="_blank" rel="noreferrer">Ruwayda Mustafah</a>
         &nbsp;
         with the intention of raising awareness about the
         scale of violence women face within the region.
+      </Typography.Paragraph>
+      <Typography.Paragraph italic className="about-text">
+        This project is opensource and hosted on github you can
+        &nbsp;
+        <a href="https://github.com/hesta-io/women.krd" target="_blank" rel="noreferrer">click here</a>
+        &nbsp;
+        and contribute.
       </Typography.Paragraph>
     </div>
   );
