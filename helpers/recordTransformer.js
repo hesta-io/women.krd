@@ -11,10 +11,11 @@ export default function recordTransformer(records = []) {
       relationship_to_principal_suspect: row[5] ? row[5] : '',
       occupation: row[6] ? row[6] : '',
       incident_province: row[7] ? row[7] : '',
-      incident_description: row[8] ? row[8] : '',
-      link1: row[9] ? row[9] : '',
-      link2: row[10] ? row[10] : '',
-      link3: row[11] ? row[11] : '',
+      primary_suspect_status: row[8] ? row[8] : '',
+      incident_description: row[9] ? row[9] : '',
+      link1: row[10] ? row[10] : '',
+      link2: row[11] ? row[11] : '',
+      link3: row[12] ? row[12] : '',
     });
   }
   return result;
