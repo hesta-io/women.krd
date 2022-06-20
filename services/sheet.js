@@ -17,7 +17,7 @@ async function loadRecords() {
 
 async function loadTypes() {
   const [typesRes] = await promiseHandler(superagent
-    .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values/types!A2:F`)
+    .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values/types!A2:G`)
     .query({
       key: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
     }));
@@ -31,7 +31,7 @@ async function loadTypes() {
 
 async function loadAllData() {
   const dataSheetName = 'data!A2:M';
-  const typesSheetName = 'types!A2:F';
+  const typesSheetName = 'types!A2:G';
   const [dataRes] = await promiseHandler(superagent
     .get(`${process.env.NEXT_PUBLIC_GOOGLE_SHEET_API_URL}/${process.env.NEXT_PUBLIC_GOOGLE_SHEET_KEY}/values:batchGet`)
     .query({

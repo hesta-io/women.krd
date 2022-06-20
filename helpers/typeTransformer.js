@@ -7,6 +7,7 @@ const avilableTypeKeys = {
   methodsOfKilling: 'methodsOfKilling',
   provinces: 'provinces',
   apparentCircumstances: 'apparentCircumstances',
+  suspectStatuses: 'suspectStatuses',
 };
 export default function typeTransformer(types = []) {
   const keys = _.keys(avilableTypeKeys);
