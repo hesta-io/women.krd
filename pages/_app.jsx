@@ -66,7 +66,7 @@ function WomenApp({ Component, pageProps }) {
           {' '}
           Created by
           {' '}
-          <a href="https://hesta.io"><b>Hesta LTD</b></a>
+          <a href="https://hesta.io"><b>Hesta</b></a>
 
         </Footer>
       </Layout>
