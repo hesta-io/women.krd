@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import Head from 'next/head';
 import {
   Row, Col, Table, Typography, Button, Descriptions,
+  Badge,
 } from 'antd';
 import moment from 'moment';
 import Filters from '../components/Filters';
@@ -183,6 +184,7 @@ function Report() {
       }));
     }
   };
+
   useEffect(() => {
     setFilteredRecords(data.records);
     setPagination(() => ({
@@ -218,25 +220,25 @@ function Report() {
       </OnDesktop>
       <OnMobile>
         <Descriptions column={24} layout="vertical" bordered size="small">
-          <Descriptions.Item span={12} label="Method of killing">
+          <Descriptions.Item span={12} label={<b>Method of killing</b>}>
             {record.apparent_method_of_killing}
           </Descriptions.Item>
-          <Descriptions.Item span={12} label="Circumstances">
+          <Descriptions.Item span={12} label={<b>Circumstances</b>}>
             {record.apparent_circumstances}
           </Descriptions.Item>
-          <Descriptions.Item span={12} label="Suspect">
+          <Descriptions.Item span={12} label={<b>Suspect</b>}>
             {record.relationship_to_principal_suspect}
             (
             {record.primary_suspect_status}
             )
           </Descriptions.Item>
-          <Descriptions.Item span={12} label="Occupation">
+          <Descriptions.Item span={12} label={<b>Occupation</b>}>
             {record.occupation}
           </Descriptions.Item>
-          <Descriptions.Item span={12} label="Province">
+          <Descriptions.Item span={12} label={<b>Province</b>}>
             {record.incident_province}
           </Descriptions.Item>
-          <Descriptions.Item span={12} label="Sources">
+          <Descriptions.Item span={12} label={<b>Sources</b>}>
             {record.link1 !== '' ? <Button size="small" href={record.link1} target="_blank" type="primary">Source 1</Button> : null}
             &nbsp;
             {record.link2 !== '' ? <Button size="small" href={record.link2} target="_blank" type="primary">Source 2</Button> : null}
@@ -244,7 +246,7 @@ function Report() {
             {record.link3 !== '' ? <Button size="small" href={record.link3} target="_blank" type="primary">Source 3</Button> : null}
           </Descriptions.Item>
 
-          <Descriptions.Item span={24} label="Description">
+          <Descriptions.Item span={24} label={<b>Description</b>}>
             <Typography.Paragraph
               style={{
                 margin: 0,
@@ -263,7 +265,7 @@ function Report() {
   return (
     <div>
       <Head>
-        <title>Women&apos;s rights reserved</title>
+        <title>Women.krd</title>
         <meta
           name="description"
           content="is a virtual platform that documents women and
@@ -284,22 +286,23 @@ function Report() {
           />
         </Col>
         <Col span={24}>
-          <Table
-            size="small"
-            bordered
-            columns={columns}
-            dataSource={filteredRecords}
-            onChange={tableChanged}
-            pagination={pagination}
-            rowKey={(record) => `${record.name}-${record.incident_date}-${record.age_range}`}
-            expandable={{
-              expandedRowRender: rowExpanRendrer,
-              rowExpandable: (record) => record.incident_description !== '',
-            }}
-          />
+          <Badge.Ribbon text={<a style={{ color: 'white' }} target="_blank" href="https://docs.google.com/spreadsheets/d/18CX2__ItXMn_gqQS4wCMIkirzeRl_zidpQGdC1kboD4" rel="noreferrer">Explore Data</a>} color="green">
+            <Table
+              size="small"
+              bordered
+              columns={columns}
+              dataSource={filteredRecords}
+              onChange={tableChanged}
+              pagination={pagination}
+              rowKey={(record) => `${record.name}-${record.incident_date}-${record.age_range}`}
+              expandable={{
+                expandedRowRender: rowExpanRendrer,
+                rowExpandable: (record) => record.incident_description !== '',
+              }}
+            />
+          </Badge.Ribbon>
         </Col>
       </Row>
-
     </div>
   );
 }
