@@ -3,12 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { Button, Layout } from 'antd';
+import { Button, Layout, ConfigProvider } from 'antd';
 import { HomeOutlined, AreaChartOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import 'animate.css';
 
 import '../styles/globals.css';
-import '../styles/antd.less';
 import sheet from '../services/sheet';
 import DataContext from '../helpers/DataContext';
 
@@ -49,30 +48,41 @@ function WomenApp({ Component, pageProps }) {
           gtag('config', 'G-RG467SZ5WC');
         `}
       </Script>
-      <Layout color="red" style={{ minHeight: '100vh' }} className="layout">
-        <Header className="header">
-          <div className="logo" />
-          <Button.Group size="large" style={{ width: '100%' }}>
-            <Button onClick={() => goToRoute('/')} icon={<HomeOutlined />} type={pathName === '/' ? 'primary' : 'dashed'} block>Home</Button>
-            <Button onClick={() => goToRoute('/report')} icon={<AreaChartOutlined />} type={pathName === '/report' ? 'primary' : 'dashed'} block>Reports</Button>
-            <Button onClick={() => goToRoute('/about')} icon={<QuestionCircleOutlined />} type={pathName === '/about' ? 'primary' : 'dashed'} block>About</Button>
-          </Button.Group>
-        </Header>
-        <Content className="main-container">
-          <DataContext.Provider value={allData}>
-            <Component {...pageProps} />
-          </DataContext.Provider>
-        </Content>
-        <Footer className="footer" style={{ textAlign: 'center' }}>
-          Women.krd ©
-          {new Date().getFullYear()}
-          {' '}
-          Created by
-          {' '}
-          <a href="https://hesta.io"><b>Hesta</b></a>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#262626',
+            colorTextBase: '#262626',
+            colorLink: '#262626',
+            borderRadius: 7,
+          },
+        }}
+      >
+        <Layout color="red" style={{ minHeight: '100vh' }} className="layout">
+          <Header className="header">
+            <div className="logo" />
+            <Button.Group size="large" style={{ width: '100%' }}>
+              <Button onClick={() => goToRoute('/')} icon={<HomeOutlined />} type={pathName === '/' ? 'primary' : 'dashed'} block>Home</Button>
+              <Button onClick={() => goToRoute('/report')} icon={<AreaChartOutlined />} type={pathName === '/report' ? 'primary' : 'dashed'} block>Reports</Button>
+              <Button onClick={() => goToRoute('/about')} icon={<QuestionCircleOutlined />} type={pathName === '/about' ? 'primary' : 'dashed'} block>About</Button>
+            </Button.Group>
+          </Header>
+          <Content className="main-container">
+            <DataContext.Provider value={allData}>
+              <Component {...pageProps} />
+            </DataContext.Provider>
+          </Content>
+          <Footer className="footer" style={{ textAlign: 'center' }}>
+            Women.krd ©
+            {new Date().getFullYear()}
+            {' '}
+            Created by
+            {' '}
+            <a href="https://hesta.io"><b>Hesta</b></a>
 
-        </Footer>
-      </Layout>
+          </Footer>
+        </Layout>
+      </ConfigProvider>
     </>
   );
 }

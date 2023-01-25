@@ -73,7 +73,7 @@ export default function Home() {
   const PartnersGallery = (
     <Image.PreviewGroup>
       <a href="https://hesta.io" target="_blank" rel="noreferrer">
-        <Image className="brand-image" preview={false} width={130} src="/images/hesta.png" />
+        <Image className="brand-image" preview={false} width={130} src="/images/hesta.svg" />
       </a>
       <Image className="brand-image" preview={false} width={130} src="/images/seed.png" />
       <Image className="brand-image" preview={false} width={130} src="/images/asuda.png" />
@@ -94,7 +94,7 @@ export default function Home() {
 
       <Row gutter={[20, 20]}>
         <Col span={24}>
-          <Typography.Title style={{ textAlign: 'center', marginBottom: 30 }} level={1}>
+          <Typography.Title style={{ textAlign: 'center', marginBottom: 15, marginTop: -15 }} level={1}>
             Documenting violence against
             <br />
             women in Kurdistan Region
