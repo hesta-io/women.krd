@@ -51,7 +51,7 @@ const chartOptions = {
 export default function Home() {
   const { records } = useContext(DataContext);
   const groupedRecords = _.groupBy(records, 'incident_province');
-  const labels = _.keys(groupedRecords);
+  const labels = _.filter(_.keys(groupedRecords), (l) => `${l}`.trim() !== '');
   const chartValues = labels.map((l) => groupedRecords[l]?.length);
   const thisYearCases = records.filter((v) => {
     const incidentDate = moment(v.incident_date);
