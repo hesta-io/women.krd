@@ -56,3 +56,6 @@ body {
 a{
     text-decoration: underline !important;
 }
+.blog-link {
+    text-decoration: none !important;
+}
