@@ -4,7 +4,12 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { Button, Layout, ConfigProvider } from 'antd';
-import { HomeOutlined, AreaChartOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import {
+  HomeOutlined,
+  AreaChartOutlined,
+  QuestionCircleOutlined,
+  BookOutlined,
+} from '@ant-design/icons';
 import 'animate.css';
 
 import '../styles/globals.css';
@@ -64,6 +69,7 @@ function WomenApp({ Component, pageProps }) {
             <Button.Group size="large" style={{ width: '100%' }}>
               <Button onClick={() => goToRoute('/')} icon={<HomeOutlined />} type={pathName === '/' ? 'primary' : 'dashed'} block>Home</Button>
               <Button onClick={() => goToRoute('/report')} icon={<AreaChartOutlined />} type={pathName === '/report' ? 'primary' : 'dashed'} block>Reports</Button>
+              <Button onClick={() => goToRoute('/blog')} icon={<BookOutlined />} type={pathName === '/blog' || pathName === '/blog/[id]' ? 'primary' : 'dashed'} block>Blogs</Button>
               <Button onClick={() => goToRoute('/about')} icon={<QuestionCircleOutlined />} type={pathName === '/about' ? 'primary' : 'dashed'} block>About</Button>
             </Button.Group>
           </Header>
