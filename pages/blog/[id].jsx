@@ -9,7 +9,7 @@ import moment from 'moment';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Interweave } from 'interweave';
-import blogger from '../../../services/blogger';
+import blogger from '../../services/blogger';
 
 export default function Blog() {
   const router = useRouter();
