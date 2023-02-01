@@ -53,6 +53,8 @@ export default function Blog() {
   useEffect(() => {
     if (postId) {
       toggleDrawerVisible();
+    } else {
+      setDrawerVisible(false);
     }
   }, [postId]);
   const posts = (blog?.items ?? []).map((item) => (
@@ -89,8 +91,37 @@ export default function Blog() {
       </Card>
     </Col>
   ));
+  const BlogHead = (
+    <Head>
+      <title>{blog.title}</title>
+      <meta name="title" content={`${blog.title}`} />
+      <meta property="article:author" content={`${blog?.author?.displayName}`} />
+      <meta property="og:locale" content="en_EN" />
+      <meta property="og:site_name" content={`${blog.title}`} />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content={`${blog.title}`} />
+      <meta property="og:site_name" content="Women.krd" />
+      <meta property="og:image" content={`${blog?.images ? blog?.images[0]?.url : 'images/placeholder.jpg'}`} />
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:url" content={`https://women.krd/blog?post=${blog.id}`} />
+      <meta property="twitter:title" content={`${blog.title}`} />
+      <meta property="twitter:image" content={`${blog?.images ? blog?.images[0]?.url : 'images/placeholder.jpg'}`} />
+    </Head>
+  );
+  const defaultHead = (
+    <Head>
+      <title>Latest Articles</title>
+      <meta
+        name="description"
+        content="is a virtual platform that documents women and
+    girls killed in the name of honour within the Iraqi Kurdistan Region"
+      />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
+  );
   return (
     <div>
+      {postId ? BlogHead : defaultHead}
       <Drawer
         bodyStyle={{
           padding: 0,
@@ -106,15 +137,7 @@ export default function Blog() {
       >
         <SinglePost resourceId={postId} />
       </Drawer>
-      <Head>
-        <title>Blogs</title>
-        <meta
-          name="description"
-          content="is a virtual platform that documents women and
-            girls killed in the name of honour within the Iraqi Kurdistan Region"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+
       <Row gutter={[20, 20]} justify="center" align="middle">
         {!blog?.items && !loading ? (
           <Col span={24}>
