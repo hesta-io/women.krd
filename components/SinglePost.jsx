@@ -7,17 +7,16 @@ import {
 } from 'antd';
 import moment from 'moment';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { Interweave } from 'interweave';
-import blogger from '../../services/blogger';
+import blogger from '../services/blogger';
 
-export default function Blog() {
-  const router = useRouter();
-  const postId = router.query.id;
+export default function Post(props) {
+  const { resourceId: postId } = props;
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState({});
 
   const loadData = async () => {
+    setLoading(true);
     const blogData = await blogger.loadRecord(postId);
     setBlog(blogData);
     setLoading(false);
@@ -27,6 +26,17 @@ export default function Blog() {
       loadData();
     }
   }, [postId]);
+
+  if (loading) {
+    return (
+      <Row align="middle" justify="center">
+        <Col style={{ textAlign: 'center' }} span={24}>
+          <Spin size="small" />
+        </Col>
+      </Row>
+    );
+  }
+
   return (
     <div>
       {blog.id
@@ -43,18 +53,16 @@ export default function Blog() {
         )
         : null}
       <Row gutter={[20, 20]} justify="center" align="middle">
-        {!blog.id && !loading ? (
+        {!blog.id ? (
           <Col span={24}>
             <Empty description="Post not found" />
           </Col>
         ) : null}
-        {loading ? (
-          <Col style={{ textAlign: 'center' }} span={24}>
-            <Spin size="small" />
-          </Col>
-        ) : null}
+
         <Col span={24}>
           <Card
+            className="post-container"
+            bordered={false}
             style={{ minHeight: 130 }}
           >
             <Card.Meta
