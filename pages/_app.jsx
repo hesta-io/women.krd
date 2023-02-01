@@ -15,6 +15,7 @@ import 'animate.css';
 import '../styles/globals.css';
 import sheet from '../services/sheet';
 import DataContext from '../helpers/DataContext';
+import { isSmallDevice } from '../helpers/MediaQuery';
 
 const { Header, Content, Footer } = Layout;
 
@@ -65,8 +66,7 @@ function WomenApp({ Component, pageProps }) {
       >
         <Layout color="red" style={{ minHeight: '100vh' }} className="layout">
           <Header className="header">
-            <div className="logo" />
-            <Button.Group size="large" style={{ width: '100%' }}>
+            <Button.Group size="large" style={{ width: isSmallDevice() ? undefined : '80%' }}>
               <Button onClick={() => goToRoute('/')} icon={<HomeOutlined />} type={pathName === '/' ? 'primary' : 'dashed'} block>Home</Button>
               <Button onClick={() => goToRoute('/report')} icon={<AreaChartOutlined />} type={pathName === '/report' ? 'primary' : 'dashed'} block>Reports</Button>
               <Button onClick={() => goToRoute('/blog')} icon={<BookOutlined />} type={pathName === '/blog' || pathName === '/blog/[id]' ? 'primary' : 'dashed'} block>Blog</Button>
