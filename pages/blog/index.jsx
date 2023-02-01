@@ -4,13 +4,19 @@ import {
   Tag, Image,
   Tooltip,
   Button,
+  Drawer,
 } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import blogger from '../../services/blogger';
+import SinglePost from '../../components/SinglePost';
+import { isSmallDevice } from '../../helpers/MediaQuery';
 
 export default function Blog() {
+  const router = useRouter();
+  const postId = router?.query?.post ?? null;
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState({});
   const [nextPageToken, setNextPageToken] = useState(null);
@@ -31,46 +37,75 @@ export default function Blog() {
     setBlog(newBlog);
     setLoading(false);
   };
+  const [drawerVisible, setDrawerVisible] = useState(false);
+
+  const toggleDrawerVisible = () => {
+    if (drawerVisible) {
+      router.push('/blog');
+    }
+    setDrawerVisible((v) => !v);
+  };
 
   useEffect(() => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    if (postId) {
+      toggleDrawerVisible();
+    }
+  }, [postId]);
   const posts = (blog?.items ?? []).map((item) => (
-    <Col style={{ }} span={8} key={item.id}>
-      <a target="_blank" href={`/blog/${item.id}`} className="blog-link" rel="noreferrer">
-        <Card
-          style={{ minHeight: 130 }}
-          cover={<Image preview={false} height={240} src={item?.images ? item?.images[0]?.url : 'images/placeholder.jpg'} />}
-        >
-          <Card.Meta
-            title={<Tooltip title={item.title}>{item.title}</Tooltip>}
-            avatar={<Avatar size="default" src={item?.author?.image?.url} />}
-            description={(
-              <>
-                <span>
-                  Author:
-                  {' '}
-                  {item?.author?.displayName}
-                </span>
+    <Col style={{ }} md={8} sm={24} lg={8} key={item.id}>
+      <Card
+        onClick={() => {
+          router.push(`?post=${item.id}`);
+        }}
+        style={{ minHeight: 130, cursor: 'pointer' }}
+        cover={<Image preview={false} height={240} src={item?.images ? item?.images[0]?.url : 'images/placeholder.jpg'} />}
+      >
+        <Card.Meta
+          title={<Tooltip title={item.title}>{item.title}</Tooltip>}
+          avatar={<Avatar size="default" src={item?.author?.image?.url} />}
+          description={(
+            <>
+              <span>
+                Author:
+                {' '}
+                {item?.author?.displayName}
+              </span>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span>
-                  Date:
-                  {' '}
-                  {moment(item.published).format('LLL')}
-                </span>
-                {/* <Divider dashed /> */}
-                <br />
-                {item?.labels?.map((l) => <Tag style={{ background: '#262626', color: 'white', border: 'none' }}>{l}</Tag>)}
-              </>
+              <span>
+                Date:
+                {' '}
+                {moment(item.published).format('LLL')}
+              </span>
+              {/* <Divider dashed /> */}
+              <br />
+              {item?.labels?.map((l) => <Tag style={{ background: '#262626', color: 'white', border: 'none' }}>{l}</Tag>)}
+            </>
             )}
-          />
-        </Card>
-      </a>
+        />
+      </Card>
     </Col>
   ));
   return (
     <div>
+      <Drawer
+        bodyStyle={{
+          padding: 0,
+          overflowX: 'hidden',
+        }}
+        destroyOnClose
+        placement="left"
+        width={isSmallDevice() ? '100%' : '70%'}
+        closable
+        size="default"
+        onClose={toggleDrawerVisible}
+        open={drawerVisible}
+      >
+        <SinglePost resourceId={postId} />
+      </Drawer>
       <Head>
         <title>Blogs</title>
         <meta
@@ -88,7 +123,7 @@ export default function Blog() {
         ) : null}
         {posts}
         <Col span={24} />
-        <Col span={8}>
+        <Col md={8} sm={24} lg={8}>
           <Button onClick={olderPosts} loading={loading} disabled={loading} style={{ display: nextPageToken == null ? 'none' : undefined }} type="primary" block>Load More</Button>
         </Col>
 
