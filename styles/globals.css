@@ -7,8 +7,7 @@ body {
 }
 .header {
     background-color: transparent !important;
-    padding-left: 25px  !important;
-    padding-right: 25px !important;
+    padding: 0 !important;
     text-align: center;
 }
 
